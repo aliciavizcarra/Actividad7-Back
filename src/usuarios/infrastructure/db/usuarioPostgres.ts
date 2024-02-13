@@ -4,8 +4,22 @@ import UsuarioRepository from "../../domain/usuarioRepository";
 
 export default class UsuarioReositoryPostgress implements UsuarioRepository{
     
-    actualizar(usuarioNuevo: Usuario, emailUsuario: string): Promise<Usuario> {
-        throw new Error("Method not implemented.");
+    async actualizar(usuarioNuevo: Usuario, emailUsuario: string): Promise<Usuario> {
+        
+        const consulta = `UPDATE usuarios
+        SET email='${usuarioNuevo.email}', nombre='${usuarioNuevo.nombre}', apellidos='${usuarioNuevo.apellidos}', password='${usuarioNuevo.password}'
+        WHERE email='${emailUsuario}' returning *;`
+
+        const rows: any[] = await executeQuery(consulta);
+
+        const usuarioBD: Usuario = {
+            nombre: rows[0].nombre,
+            password: rows[0].password,
+            email: rows[0].email,
+            apellidos: rows[0].apellidos
+        }
+
+        return usuarioBD;
     }
 
     async registro(usuario: Usuario): Promise<Usuario> {

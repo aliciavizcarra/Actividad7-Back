@@ -2,7 +2,7 @@ import express from "express";
 import UsuarioUseCases from "../../application/usuarioUseCases";
 import UsuarioReositoryPostgress from "../db/usuarioPostgres";
 import Usuario from "../../domain/usuario";
-import { createToken } from "../../../context/security/auth";
+import { createToken, isAuth } from "../../../context/security/auth";
 
 const usuarioUseCases: UsuarioUseCases = new UsuarioUseCases(new UsuarioReositoryPostgress);
 
@@ -31,6 +31,19 @@ router.post("/login", async (req,res)=>{
         res.status(404).json({mensaje : "Usuario no encontrado"});
     const token = createToken(usuario);
     res.json({usuario, token});
+})
+
+router.put("/registro", isAuth, async (req,res)=>{
+    const emailUsuario = req.body.email;
+
+    const usuario= req.body;
+
+    const usuarioModificado = await usuarioUseCases.actualizar(usuario,emailUsuario);
+
+    console.log(usuarioModificado)
+
+     res.json(usuarioModificado.email)
+
 })
 
 

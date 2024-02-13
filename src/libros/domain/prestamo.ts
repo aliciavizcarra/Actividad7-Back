@@ -1,5 +1,5 @@
-import Ejemplar from "../../libros/domain/ejemplar";
 import Usuario from "../../usuarios/domain/usuario";
+import Ejemplar from "./ejemplar";
 
 export default interface Prestamo{
     usuario: Usuario,

@@ -30,6 +30,10 @@ export default class UsuarioUseCases {
         }
     }
 
+    async actualizar(usuarioNuevo: Usuario, emailUsuario: string): Promise<Usuario>{
+        return this.usuarioRepository.actualizar(usuarioNuevo,emailUsuario);
+    }
+
 
 
 
