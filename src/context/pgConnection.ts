@@ -5,7 +5,7 @@ dotenv.config()
 const dbHost = process.env.POSTGRES_HOST
 const dbUser = process.env.POSTGRES_USER
 const dbPassword = process.env.POSTGRES_PW
-const dbName = process.env.POSTGRES_NAME
+const dbName = process.env.POSTGRES_DB
 
 const pool = new Pool({
     max: 20,
