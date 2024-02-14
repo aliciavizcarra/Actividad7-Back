@@ -5,14 +5,14 @@ export default class LibroUseCases{
 
     constructor(private libroRepository: LibroRepository){};
 
-    getPaginas():number{
+    getPaginas():Promise<number>{
         return this.libroRepository.getPaginas();
     }
     getLibrosDisponibles(numPagina: number): Promise <any[]>{
         return this.libroRepository.getLibrosDisponibles(numPagina);
     }
    
-    getNumPaginas(fragmentoBuscado: string): number{
+    getNumPaginas(fragmentoBuscado: string): Promise<number>{
         return this.libroRepository.getNumPaginas(fragmentoBuscado);
     }
 
@@ -20,8 +20,8 @@ export default class LibroUseCases{
         return this.libroRepository.getLibrosFromPagina(fragmentoBuscado,numPagina)
     } 
 
-    prestarLibro(ejemplar:number): Prestamo{
-        return this.libroRepository.prestarLibro(ejemplar)
+    prestarLibro(ejemplar: number, usuario:string, fecha: Date): Promise<Prestamo>{
+        return this.libroRepository.prestarLibro(ejemplar,usuario,fecha)
     }
 
     mostrarPrestados(idUsuario: number): Promise <Prestamo[]>{

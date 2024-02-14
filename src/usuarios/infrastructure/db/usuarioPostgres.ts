@@ -7,7 +7,7 @@ export default class UsuarioReositoryPostgress implements UsuarioRepository{
     async actualizar(usuarioNuevo: Usuario, emailUsuario: string): Promise<Usuario> {
         
         const consulta = `UPDATE usuarios
-        SET email='${usuarioNuevo.email}', nombre='${usuarioNuevo.nombre}', apellidos='${usuarioNuevo.apellidos}', password='${usuarioNuevo.password}'
+        SET email='${usuarioNuevo.email}', nombre='${usuarioNuevo.nombre}', apellidos='${usuarioNuevo.apellidos}'
         WHERE email='${emailUsuario}' returning *;`
 
         const rows: any[] = await executeQuery(consulta);

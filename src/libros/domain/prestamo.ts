@@ -5,5 +5,5 @@ export default interface Prestamo{
     usuario: Usuario,
     ejemplar: Ejemplar,
     fechaprestamo: Date,
-    fechadevolucion: Date
+    fechadevolucion?: Date
 }
