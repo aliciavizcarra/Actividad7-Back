@@ -28,8 +28,8 @@ export default class LibroUseCases{
         return this.libroRepository.mostrarPrestados(idUsuario)
     }
 
-    devolverLibro(ejemplar:number): Prestamo{
-        return this.libroRepository.devolverLibro(ejemplar);
+    devolverLibro(ejemplar: number, usuario:string, fecha: Date): Promise<Prestamo>{
+        return this.libroRepository.devolverLibro(ejemplar,usuario,fecha);
     }
 
 

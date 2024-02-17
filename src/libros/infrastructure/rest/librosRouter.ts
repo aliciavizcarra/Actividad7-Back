@@ -62,18 +62,48 @@ router.get("/:fragmentoBuscado/:numPagina", async(req,res)=>{
     }  
 })
 
-router.post("/:idLibro", isAuth, async(req,res)=>{
+router.post("/:ejemplar", isAuth, async(req,res)=>{
     
     try{
-        const fechaPrestamo= new Date();
-        const emailUsuario = req.body.email;
-        const idLibro = parseInt(req.params.idLibro)
-        const prestamo = await librosUseCases.prestarLibro(idLibro,emailUsuario,fechaPrestamo)
+        const hoy= new Date();
+        const emailUsuario = req.body.userEmail;
+        const idLibro = parseInt(req.params.ejemplar)
+        const prestamo = await librosUseCases.prestarLibro(idLibro,emailUsuario,hoy)
+        res.json(prestamo)
+    }catch(error){
+        console.error(error);
+        res.status(500).send(error);
+    }  
+})
+
+
+router.get("/", isAuth, async(req,res)=>{
+
+    try{
+        const emailUsuario = req.body.userEmail;
+        const libros = await librosUseCases.mostrarPrestados(emailUsuario)
+        res.json(libros)
+    }catch(error){
+        console.error(error);
+        res.status(500).send(error);
+    }  
+})
+
+router.put("/:ejemplar", isAuth, async(req,res)=>{
+
+    try{
+
+        const hoy= new Date();
+        const emailUsuario = req.body.userEmail;
+        const idLibro = parseInt(req.params.ejemplar)
+        const prestamo = await librosUseCases.devolverLibro(idLibro,emailUsuario,hoy)
+        res.json(prestamo)
 
     }catch(error){
         console.error(error);
         res.status(500).send(error);
     }  
+
 })
 
 

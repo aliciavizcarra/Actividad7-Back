@@ -1,4 +1,5 @@
 import executeQuery from "../../../context/pgConnection";
+import Ejemplar from "../../domain/ejemplar";
 import Libro from "../../domain/libro";
 import LibroRepository from "../../domain/libroRepository";
 import Prestamo from "../../domain/prestamo";
@@ -86,12 +87,17 @@ export default class LibroRepositoryPostgres implements LibroRepository{
 
     async prestarLibro(ejemplar: number, usuario:string, fecha: Date): Promise<Prestamo> {
         
+        const fechaFormateada = fecha.toISOString();
+
         const consulta = `INSERT INTO prestamos(
             usuario, ejemplar, fechaprestamo)
-            VALUES ('${usuario}',${ejemplar},'${fecha}');`
+            VALUES ('${usuario}', ${ejemplar}, '${fechaFormateada}') RETURNING *;`;
 
+        
         const prestamoDB: any[] = await executeQuery(consulta);
 
+        console.log(prestamoDB);
+        
             const prestamo: Prestamo = {
                 ejemplar: prestamoDB[0].ejemplar,
                 usuario: prestamoDB[0].usuario,
@@ -103,11 +109,70 @@ export default class LibroRepositoryPostgres implements LibroRepository{
     }
 
 
-    mostrarPrestados(idUsuario: number): Promise<Prestamo[]> {
-        throw new Error("Method not implemented.");
+    async mostrarPrestados(idUsuario: number): Promise<Prestamo[]> {
+        
+        const prestamos : Prestamo[] = []
+
+        const consulta = `SELECT
+        prestamos.ejemplar as ejemplar_id,
+        libros.id as libro_id,
+        libros.titulo,
+        libros.autor,
+        prestamos.fechaprestamo
+        from prestamos
+        join ejemplares
+        on prestamos.ejemplar = ejemplares.id
+        join libros
+        on libros.id =ejemplares.libro
+        WHERE
+        prestamos.usuario = '${idUsuario}'`
+
+        const prestamoDB: any[] = await executeQuery(consulta);
+
+        for(const item of prestamoDB){
+
+            const libroPrestado: Libro = {
+                id: item.libro_id,
+                titulo: item.titulo,
+                autor: item.autor,
+            }
+
+            const ejemplar:Ejemplar = {
+                id: item.ejemplar_id,
+                libro:libroPrestado
+            }
+
+            const prestamo: Prestamo = {
+                ejemplar: ejemplar,
+                fechaprestamo: item.fechaprestamo
+            }
+
+            prestamos.push(prestamo);
+        }
+
+        return prestamos
     }
-    devolverLibro(ejemplar: number): Prestamo {
-        throw new Error("Method not implemented.");
+
+
+    async devolverLibro(ejemplar: number, usuario:string, fecha: Date): Promise<Prestamo> {
+
+        const fechaFormateada = fecha.toISOString();
+
+        const consulta = `UPDATE prestamos
+        SET fechadevolucion='${fechaFormateada}'
+        WHERE ejemplar=${ejemplar} and usuario='${usuario}' RETURNING *;`;
+
+        const prestamoDB: any[] = await executeQuery(consulta);
+
+            const prestamo: Prestamo = {
+                ejemplar: prestamoDB[0].ejemplar,
+                usuario: prestamoDB[0].usuario,
+                fechaprestamo: prestamoDB[0].fechaprestamo,
+                fechadevolucion: prestamoDB[0].fechadevolucion
+            }
+    
+        return prestamo;
+
     }
 
 

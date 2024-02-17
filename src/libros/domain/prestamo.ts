@@ -2,7 +2,7 @@ import Usuario from "../../usuarios/domain/usuario";
 import Ejemplar from "./ejemplar";
 
 export default interface Prestamo{
-    usuario: Usuario,
+    usuario?: Usuario,
     ejemplar: Ejemplar,
     fechaprestamo: Date,
     fechadevolucion?: Date
