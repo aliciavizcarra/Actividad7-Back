@@ -65,10 +65,9 @@ router.get("/:fragmentoBuscado/:numPagina", async(req,res)=>{
 router.post("/:ejemplar", isAuth, async(req,res)=>{
     
     try{
-        const hoy= new Date();
         const emailUsuario = req.body.userEmail;
         const idLibro = parseInt(req.params.ejemplar)
-        const prestamo = await librosUseCases.prestarLibro(idLibro,emailUsuario,hoy)
+        const prestamo = await librosUseCases.prestarLibro(idLibro,emailUsuario)
         res.json(prestamo)
     }catch(error){
         console.error(error);
@@ -92,7 +91,6 @@ router.get("/", isAuth, async(req,res)=>{
 router.put("/:ejemplar", isAuth, async(req,res)=>{
 
     try{
-
         const emailUsuario = req.body.userEmail;
         const idLibro = parseInt(req.params.ejemplar)
         const prestamo = await librosUseCases.devolverLibro(idLibro,emailUsuario)

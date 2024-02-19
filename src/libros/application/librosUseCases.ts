@@ -20,16 +20,16 @@ export default class LibroUseCases{
         return this.libroRepository.getLibrosFromPagina(fragmentoBuscado,numPagina)
     } 
 
-    prestarLibro(ejemplar: number, usuario:string, fecha: Date): Promise<Prestamo>{
-        return this.libroRepository.prestarLibro(ejemplar,usuario,fecha)
+    prestarLibro(ejemplar: number, usuario:string): Promise<Prestamo>{
+        return this.libroRepository.prestarLibro(ejemplar,usuario)
     }
 
     mostrarPrestados(idUsuario: number): Promise <Prestamo[]>{
         return this.libroRepository.mostrarPrestados(idUsuario)
     }
 
-    devolverLibro(ejemplar: number, usuario:string, fecha: Date): Promise<Prestamo>{
-        return this.libroRepository.devolverLibro(ejemplar,usuario,fecha);
+    devolverLibro(ejemplar: number, usuario:string): Promise<Prestamo>{
+        return this.libroRepository.devolverLibro(ejemplar,usuario);
     }
 
 

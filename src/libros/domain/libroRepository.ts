@@ -8,8 +8,8 @@ export default interface LibroRepository{
     getLibrosDisponibles(numPagina: number): Promise <any[]>;
     getNumPaginas(fragmentoBuscado: string): Promise<number>;
     getLibrosFromPagina(fragmentoBuscado:string, numPagina:number): Promise<any[]>; 
-    prestarLibro(ejemplar: number, usuario:string, fecha: Date): Promise<Prestamo>;
+    prestarLibro(ejemplar: number, usuario:string): Promise<Prestamo>;
     mostrarPrestados(idUsuario: number): Promise <Prestamo[]>
-    devolverLibro(ejemplar: number, usuario:string, fecha: Date): Promise<Prestamo>;
+    devolverLibro(ejemplar: number, usuario:string): Promise<Prestamo>;
 
 }
