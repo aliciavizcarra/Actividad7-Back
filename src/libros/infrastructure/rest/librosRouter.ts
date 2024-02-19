@@ -93,10 +93,9 @@ router.put("/:ejemplar", isAuth, async(req,res)=>{
 
     try{
 
-        const hoy= new Date();
         const emailUsuario = req.body.userEmail;
         const idLibro = parseInt(req.params.ejemplar)
-        const prestamo = await librosUseCases.devolverLibro(idLibro,emailUsuario,hoy)
+        const prestamo = await librosUseCases.devolverLibro(idLibro,emailUsuario)
         res.json(prestamo)
 
     }catch(error){

@@ -85,13 +85,12 @@ export default class LibroRepositoryPostgres implements LibroRepository{
         return librosDisponibles;
     }
 
-    async prestarLibro(ejemplar: number, usuario:string, fecha: Date): Promise<Prestamo> {
+    async prestarLibro(ejemplar: number, usuario:string): Promise<Prestamo> {
         
-        const fechaFormateada = fecha.toISOString();
 
         const consulta = `INSERT INTO prestamos(
             usuario, ejemplar, fechaprestamo)
-            VALUES ('${usuario}', ${ejemplar}, '${fechaFormateada}') RETURNING *;`;
+            VALUES ('${usuario}', ${ejemplar}, now()) RETURNING *;`;
 
         
         const prestamoDB: any[] = await executeQuery(consulta);
