@@ -100,7 +100,8 @@ export default class LibroRepositoryPostgres implements LibroRepository{
             const prestamo: Prestamo = {
                 ejemplar: prestamoDB[0].ejemplar,
                 usuario: prestamoDB[0].usuario,
-                fechaprestamo: prestamoDB[0].fechaprestamo
+                fechaprestamo: prestamoDB[0].fechaprestamo,
+                fechadevolucion: prestamoDB[0].fechadevolucion
             }
     
         return prestamo;
@@ -117,7 +118,8 @@ export default class LibroRepositoryPostgres implements LibroRepository{
         libros.id as libro_id,
         libros.titulo,
         libros.autor,
-        prestamos.fechaprestamo
+        prestamos.fechaprestamo,
+        prestamos.fechadevolucion
         from prestamos
         join ejemplares
         on prestamos.ejemplar = ejemplares.id
@@ -143,7 +145,8 @@ export default class LibroRepositoryPostgres implements LibroRepository{
 
             const prestamo: Prestamo = {
                 ejemplar: ejemplar,
-                fechaprestamo: item.fechaprestamo
+                fechaprestamo: item.fechaprestamo,
+                fechadevolucion: item.fechadevolucion
             }
 
             prestamos.push(prestamo);

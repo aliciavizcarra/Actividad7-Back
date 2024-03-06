@@ -94,7 +94,6 @@ router.put("/:ejemplar", isAuth, async(req,res)=>{
         const emailUsuario = req.body.userEmail;
         const idLibro = parseInt(req.params.ejemplar)
         const prestamo = await librosUseCases.devolverLibro(idLibro,emailUsuario)
-        console.log(prestamo)
         res.json(prestamo)
 
     }catch(error){
